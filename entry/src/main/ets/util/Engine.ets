@@ -1,6 +1,6 @@
-import { wearEngine } from "@kit.WearEngine"
-import { util } from "@kit.ArkTS";
-import { Presentation } from "../model/Presentation";
+import { wearEngine } from '@kit.WearEngine'
+import { util } from '@kit.ArkTS';
+import { Presentation } from '../model/Presentation';
 
 @Observed
 export default class Engine {
@@ -84,7 +84,7 @@ export default class Engine {
 
         await this.p2pClient.registerMessageReceiver(this.targetDevice.randomId, appParam, callback)
 
-        console.log('setReceiver done');
+        console.info('setReceiver done');
       } catch (error) {
         console.error(`setReceiver error: ${error.code}, ${error.message}`);
         this.error = 'Unknown error occurred, please try again later.'
@@ -113,7 +113,7 @@ export default class Engine {
         }
 
         let res = await this.p2pClient.sendMessage(this.targetDevice.randomId, appParam, message)
-        console.log(`askPresentation result: ${JSON.stringify(res)}`)
+        console.info(`askPresentation result: ${JSON.stringify(res)}`)
       } catch (error) {
         console.error(`askPresentation error: ${error.code}, ${error.message}`);
         if (error === this.connectionError) {
@@ -145,7 +145,7 @@ export default class Engine {
         }
 
         let res = await this.p2pClient.sendMessage(this.targetDevice.randomId, appParam, message)
-        console.log(`sendCommand result: ${JSON.stringify(res)}`)
+        console.info(`sendCommand result: ${JSON.stringify(res)}`)
       } catch (error) {
         console.error(`sendCommand error: ${error.code}, ${error.message}`);
         if (error === this.connectionError) {
@@ -181,20 +181,18 @@ export default class Engine {
 
   private parseMessage(msg: Uint8Array) {
     const str = this.textDecoder.decodeToString(msg)
-    console.log(str)
     const index = str.indexOf(' ')
     const code = parseInt(str.substring(0, index))
-    console.log('code', code)
+    console.info('code', code)
     const data = str.substring(index + 1)
-    console.log(`|${data}|`);
+    console.info(`|${data}|`);
 
     if (code === WEM.presentation) {
-      console.log('got pre ')
       try {
         this.presentation = JSON.parse(data)
-        console.log('presentation', this.presentation)
+        console.info('presentation', this.presentation)
       } catch (e) {
-        console.log('parse error', e, JSON.stringify(e))
+        console.error('parse error', e, JSON.stringify(e))
       }
 
     }

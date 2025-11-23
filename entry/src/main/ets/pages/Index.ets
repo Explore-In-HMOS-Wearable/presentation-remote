@@ -60,7 +60,7 @@ struct Index {
           Column() {
             Text(`Open PresentationRemote on your phone and start your presentation.`)
               .onClick(() => {
-                console.log('eng pre', this.engine.presentation);
+                console.info('eng pre', this.engine.presentation);
               })
           }.size({ width: '70%', height: '70%' }).justifyContent(FlexAlign.Center)
         }
